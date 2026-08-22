@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/khmer-money-formatter">
-    <img src="https://img.shields.io/badge/khmer-money-formatter.svg?logo=npm&logoColor=#CB3837" alt="npm version">
+    <img src="https://img.shields.io/v/npm-money-formatter.svg?logo=npm&logoColor=#CB3837" alt="npm version">
   </a>
   <a href="https://www.npmjs.com/package/khmer-money-formatter">
     <img src="https://img.shields.io/npm/dm/khmer-money-formatter.svg?logo=github" alt="npm downloads">
