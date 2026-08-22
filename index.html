@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="/dist/index.cjs"></script>
+    <script src="./dist/index.iife.js"></script>
 
 </head>
 <body>
     <h1 id="number"></h1>
     <script>
-        document.getElementById("number").innerText = decimalToKhmerText(1999.55);
+        document.getElementById("number").innerText = KhmerMoneyFormatter.decimalToKhmerText(1999.55);
     </script>
 </body>
 </html>
