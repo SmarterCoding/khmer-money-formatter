@@ -1,23 +1,29 @@
 # Khmer Money Formatter
 
-
 <p align="center">
   <a href="https://www.npmjs.com/package/khmer-money-formatter">
-    <img src="https://img.shields.io/badge/logo-javascript-blue?logo=npm&logoColor=#CB3837" alt="npm version">
+    <img src="https://img.shields.io/npm/v/khmer-money-formatter.svg?logo=npm&logoColor=white" alt="npm version">
   </a>
   <a href="https://www.npmjs.com/package/khmer-money-formatter">
-    <img src="https://img.shields.io/npm/dm/khmer-money-formatter.svg?logo=github" alt="npm downloads">
+    <img src="https://img.shields.io/npm/dm/khmer-money-formatter.svg?logo=npm&logoColor=white" alt="npm downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/khmer-money-formatter">
+    <img src="https://img.shields.io/npm/dt/khmer-money-formatter.svg?logo=npm&logoColor=white" alt="npm total downloads">
   </a>
   <a href="https://github.com/SmarterCoding/khmer-money-formatter">
     <img src="https://img.shields.io/github/stars/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="GitHub stars">
   </a>
   <a href="https://github.com/SmarterCoding/khmer-money-formatter/blob/main/LICENSE">
-    <img src="https://img.shields.io/npm/l/khmer-money-formatter.svg?logo=buddy" alt="license">
+    <img src="https://img.shields.io/npm/l/khmer-money-formatter.svg" alt="license">
   </a>
   <a href="https://github.com/SmarterCoding/khmer-money-formatter/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/SmarterCoding/khmer-money-formatter/ci.yml?logo=iterm2" alt="CI">
+    <img src="https://img.shields.io/github/actions/workflow/status/SmarterCoding/khmer-money-formatter/ci.yml?logo=github&label=CI" alt="CI">
+  </a>
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter">
+    <img src="https://img.shields.io/github/last-commit/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="last commit">
   </a>
 </p>
+
 
 
 <p align="center">
