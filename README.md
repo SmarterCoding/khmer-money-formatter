@@ -35,6 +35,7 @@
 * [Introduction](#introduction)
 * [Features](#features)
 * [Installation](#installation)
+* [CDN Usage](#cdn-usage)
 * [Quick Start](#quick-start)
 * [Money Formatting](#money-formatting)
 * [Formatting Options](#formatting-options)
@@ -139,63 +140,63 @@ The library is designed for:
 
 # Features
 
-## 💰 Money Formatting
+## Money Formatting
 
 ```ts
 formatKHR(1000);
 // "1,000 ៛"
 ```
 
-## 🔢 Number Formatting
+## Number Formatting
 
 ```ts
 formatNumber(1234567);
 // "1,234,567"
 ```
 
-## 🇰🇭 Khmer Digits
+## Khmer Digits
 
 ```ts
 toKhmerNumber(123456);
 // "១២៣៤៥៦"
 ```
 
-## 📝 Number to Khmer Text
+## Number to Khmer Text
 
 ```ts
 numberToKhmerText(123);
 // "មួយរយម្ភៃបី"
 ```
 
-## 🔄 Money Parsing
+## Money Parsing
 
 ```ts
 parseKHR("10,000 ៛");
 // 10000
 ```
 
-## ✏️ Input Formatting
+## Input Formatting
 
 ```ts
 formatKHRInput("10000");
 // "10,000"
 ```
 
-## ✅ Validation
+## Validation
 
 ```ts
 isValidMoney("10,000");
 // true
 ```
 
-## 💵 Long Currency Format
+## Long Currency Format
 
 ```ts
 formatKHRLong(1000);
 // "1,000 រៀល"
 ```
 
-## 🌐 Multiple Module Formats
+## Multiple Module Formats
 
 Supports:
 
@@ -203,11 +204,11 @@ Supports:
 * CommonJS
 * Browser IIFE
 
-## ⚡ Tree-Shaking
+## Tree-Shaking
 
 Import only the functions you need.
 
-## 📦 Zero Runtime Dependencies
+## Zero Runtime Dependencies
 
 The package has no production dependencies.
 
@@ -240,6 +241,175 @@ bun add khmer-money-formatter
 ```
 
 ---
+
+## CDN Usage
+
+You can use `khmer-money-formatter` directly in the browser without installing it with npm.
+
+### jsDelivr
+
+#### ES Module
+
+```html
+<script type="module">
+  import {
+    formatKHR,
+    parseKHR,
+    formatNumber,
+    parseNumber,
+    toKhmerNumber,
+    fromKhmerNumber,
+    numberToKhmerText,
+    decimalToKhmerText,
+    formatKHRLong,
+    formatKHRInput,
+    isValidMoney
+  } from "https://cdn.jsdelivr.net/npm/khmer-money-formatter/dist/index.js";
+
+  console.log(formatKHR(1000));
+  console.log(formatNumber(1234567));
+  console.log(toKhmerNumber(1234567));
+  console.log(numberToKhmerText(1234567));
+</script>
+```
+
+#### Minified ES Module
+
+```html
+<script type="module">
+  import {
+    formatKHR,
+    numberToKhmerText
+  } from "https://cdn.jsdelivr.net/npm/khmer-money-formatter/dist/index.iife.js";
+
+  console.log(formatKHR(1000));
+  console.log(numberToKhmerText(1000));
+</script>
+```
+
+### unpkg
+
+#### ES Module
+
+```html
+<script type="module">
+  import {
+    formatKHR,
+    parseKHR,
+    formatNumber,
+    parseNumber,
+    toKhmerNumber,
+    fromKhmerNumber,
+    numberToKhmerText,
+    decimalToKhmerText,
+    formatKHRLong,
+    formatKHRInput,
+    isValidMoney
+  } from "https://unpkg.com/khmer-money-formatter/dist/index.js";
+
+  console.log(formatKHR(1000));
+  console.log(formatNumber(1234567));
+  console.log(toKhmerNumber(1234567));
+  console.log(numberToKhmerText(1234567));
+</script>
+```
+
+#### Minified ES Module
+
+```html
+<script type="module">
+  import {
+    formatKHR,
+    numberToKhmerText
+  } from "https://unpkg.com/khmer-money-formatter/dist/index.iife.js";
+
+  console.log(formatKHR(1000));
+  console.log(numberToKhmerText(1000));
+</script>
+```
+
+### Complete HTML Example
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Khmer Money Formatter</title>
+</head>
+
+<body>
+  <h1>Khmer Money Formatter</h1>
+
+  <p id="money"></p>
+  <p id="khmer-number"></p>
+  <p id="khmer-text"></p>
+
+  <script type="module">
+    import {
+      formatKHR,
+      toKhmerNumber,
+      numberToKhmerText
+    } from "https://cdn.jsdelivr.net/npm/khmer-money-formatter/dist/index.js";
+
+    const amount = 1234567;
+
+    document.getElementById("money").textContent =
+      formatKHR(amount);
+
+    document.getElementById("khmer-number").textContent =
+      toKhmerNumber(amount);
+
+    document.getElementById("khmer-text").textContent =
+      numberToKhmerText(amount);
+  </script>
+</body>
+</html>
+```
+
+### CDN Links
+
+| CDN      | Development                                                        | Minified                                                               |
+| -------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| jsDelivr | `https://cdn.jsdelivr.net/npm/khmer-money-formatter/dist/index.js` | `https://cdn.jsdelivr.net/npm/khmer-money-formatter/dist/index.iife.js` |
+| unpkg    | `https://unpkg.com/khmer-money-formatter/dist/index.js`            | `https://unpkg.com/khmer-money-formatter/dist/index.iife.js`            |
+
+> **Note:** CDN URLs are generated from the files published in the npm package. Make sure `dist/index.js` and `dist/index.min.js` are included in the published package.
+
+### Recommended CDN
+
+For most browser projects, **jsDelivr** is recommended:
+
+```html
+<script type="module">
+  import {
+    formatKHR,
+    numberToKhmerText
+  } from "https://cdn.jsdelivr.net/npm/khmer-money-formatter/dist/index.js";
+
+  console.log(formatKHR(1000));
+  console.log(numberToKhmerText(1000));
+</script>
+```
+
+You can also pin a specific package version for production:
+
+```html
+<script type="module">
+  import {
+    formatKHR
+  } from "https://cdn.jsdelivr.net/npm/khmer-money-formatter@1.0.0/dist/index.js";
+
+  console.log(formatKHR(1000));
+</script>
+```
+
+Pinning a version prevents your application from unexpectedly receiving a newer package version.
 
 # Quick Start
 
@@ -983,13 +1153,13 @@ import {
   decimalToKhmerText
 } from "khmer-money-formatter";
 
-decimalToKhmerText(123.45);
+decimalToKhmerText(123.55);
 ```
 
 Result:
 
 ```text
-មួយរយម្ភៃបីចុចបួនប្រាំ
+មួយរយម្ភៃបីចុចហាសិបប្រាំ
 ```
 
 ---
@@ -1995,7 +2165,7 @@ dist/
 Clone the repository:
 
 ```bash
-git clone https://github.com/chamnan-dev/khmer-money-formatter.git
+git clone https://github.com/SmarterCoding/khmer-money-formatter.git
 ```
 
 Enter the directory:
@@ -2363,7 +2533,7 @@ Please make sure:
 
 MIT License.
 
-Copyright (c) 2026 Chamnan.
+Copyright (c) 2026 Chamnan dev.
 
 See [LICENSE](LICENSE) for the complete license text.
 
@@ -2371,12 +2541,12 @@ See [LICENSE](LICENSE) for the complete license text.
 
 # Author
 
-**Chamnan**
+**Chamnan dev**
 
 GitHub:
 
 ```text
-https://github.com/chamnan-dev
+https://github.com/SmarterCoding
 ```
 
 ---

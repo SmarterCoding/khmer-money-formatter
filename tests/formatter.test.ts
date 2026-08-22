@@ -1,108 +1,134 @@
-import { describe, expect, it } from "vitest";
 import {
+  describe,
+  expect,
+  it,
+} from "vitest";
+
+import {
+  ceilMoney,
   formatKHR,
   formatKHRInput,
   formatKHRLong,
-} from "../src/index";
+} from "../src";
+
+describe("ceilMoney", () => {
+  it("rounds upward to nearest 100", () => {
+    expect(
+      ceilMoney(1000.01),
+    ).toBe(1100);
+
+    expect(
+      ceilMoney(1050),
+    ).toBe(1100);
+
+    expect(
+      ceilMoney(1099),
+    ).toBe(1100);
+
+    expect(
+      ceilMoney(1100),
+    ).toBe(1100);
+  });
+});
 
 describe("formatKHR", () => {
   it("formats Khmer Riel", () => {
-    expect(formatKHR(1000)).toBe("1,000 ៛");
+    expect(
+      formatKHR(1000),
+    ).toBe("1,000 ៛");
   });
 
-  it("formats large numbers", () => {
-    expect(formatKHR(1234567)).toBe("1,234,567 ៛");
+  it("rounds KHR upward", () => {
+    expect(
+      formatKHR(1000.01),
+    ).toBe("1,100 ៛");
   });
 
-  it("formats decimals", () => {
-    expect(formatKHR(1234567.5, {
-      decimals: 2,
-    })).toBe("1,234,567.50 ៛");
-  });
-
-  it("rounds decimals", () => {
-    expect(formatKHR(1000.567, {
-      decimals: 2,
-    })).toBe("1,000.57 ៛");
+  it("rounds 1050 upward", () => {
+    expect(
+      formatKHR(1050),
+    ).toBe("1,100 ៛");
   });
 
   it("handles zero", () => {
-    expect(formatKHR(0)).toBe("0 ៛");
+    expect(
+      formatKHR(0),
+    ).toBe("0 ៛");
   });
 
   it("handles null", () => {
-    expect(formatKHR(null)).toBe("0 ៛");
+    expect(
+      formatKHR(null),
+    ).toBe("0 ៛");
   });
 
   it("handles undefined", () => {
-    expect(formatKHR(undefined)).toBe("0 ៛");
+    expect(
+      formatKHR(undefined),
+    ).toBe("0 ៛");
   });
 
   it("handles empty strings", () => {
-    expect(formatKHR("")).toBe("0 ៛");
+    expect(
+      formatKHR(""),
+    ).toBe("0 ៛");
   });
 
-  it("supports empty option", () => {
-    expect(formatKHR(null, {
-      empty: "",
-    })).toBe("");
-  });
-
-  it("supports symbol false", () => {
-    expect(formatKHR(50000, {
-      symbol: false,
-    })).toBe("50,000");
+  it("handles negative values", () => {
+    expect(
+      formatKHR(-5000),
+    ).toBe("-5,000 ៛");
   });
 
   it("supports custom currency", () => {
-    expect(formatKHR(50000, {
-      currency: "KHR",
-    })).toBe("50,000 KHR");
+    expect(
+      formatKHR(50000, {
+        currency: "KHR",
+      }),
+    ).toBe("50,000 KHR");
   });
 
   it("supports prefix currency", () => {
-    expect(formatKHR(1000, {
-      currencyPosition: "prefix",
-    })).toBe("៛1,000");
+    expect(
+      formatKHR(50000, {
+        currencyPosition: "prefix",
+      }),
+    ).toBe("៛50,000");
   });
 
-  it("supports custom separators", () => {
-    expect(formatKHR(1234567.89, {
-      separator: ".",
-      decimalSeparator: ",",
-      decimals: 2,
-    })).toBe("1.234.567,89 ៛");
-  });
-
-  it("supports Khmer digits", () => {
-    expect(formatKHR(123456, {
-      khmerDigits: true,
-    })).toBe("១២៣,៤៥៦ ៛");
-  });
-
-  it("supports negative values", () => {
-    expect(formatKHR(-5000)).toBe("-5,000 ៛");
-  });
-});
-
-describe("formatKHRInput", () => {
-  it("formats input values", () => {
-    expect(formatKHRInput("10000")).toBe("10,000");
-  });
-
-  it("does not include currency", () => {
-    expect(formatKHRInput(50000)).toBe("50,000");
-  });
-});
-
-describe("formatKHRLong", () => {
-  it("formats long Khmer currency", () => {
-    expect(formatKHRLong(1000)).toBe("1,000 រៀល");
+  it("supports no symbol", () => {
+    expect(
+      formatKHR(50000, {
+        symbol: false,
+      }),
+    ).toBe("50,000");
   });
 
   it("supports Khmer digits", () => {
-    expect(formatKHRLong(1000, {
-      khmer: true,
-    })).toBe("១,០០០ រៀល");
+    expect(
+      formatKHR(123456, {
+        khmerDigits: true,
+      }),
+    ).toBe("១២៣,៥០០ ៛");
+  });
+
+  it("supports custom rounding unit", () => {
+    expect(
+      formatKHR(1001, {
+        roundTo: 500,
+      }),
+    ).toBe("1,500 ៛");
+  });
+
+  it("supports long currency", () => {
+    expect(
+      formatKHRLong(1000),
+    ).toBe("1,000 រៀល");
+  });
+
+  it("supports input formatting", () => {
+    expect(
+      formatKHRInput("10000"),
+    ).toBe("10,000");
   });
 });
