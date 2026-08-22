@@ -1,0 +1,70 @@
+{
+    "name": "khmer-money-formatter",
+    "version": "1.0.0",
+    "description": "Lightweight, dependency-free TypeScript library for formatting, parsing, and converting Khmer Riel and Khmer numbers.",
+    "keywords": [
+        "khmer",
+        "khmer-money",
+        "khmer-number",
+        "khmer-currency",
+        "riel",
+        "khr",
+        "currency",
+        "money",
+        "formatter",
+        "number-formatter",
+        "typescript",
+        "javascript",
+        "cambodia"
+    ],
+    "homepage": "https://github.com/chamnan-dev/khmer-money-formatter",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chamnan-dev/khmer-money-formatter.git"
+    },
+    "bugs": {
+        "url": "https://github.com/chamnan-dev/khmer-money-formatter/issues"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Chamnan",
+        "url": "https://github.com/chamnan-dev"
+    },
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "unpkg": "./dist/index.iife.js",
+    "jsdelivr": "./dist/index.iife.js",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE",
+        "SECURITY.md",
+        "CHANGELOG.md"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "typecheck": "tsc --noEmit",
+        "check": "npm run typecheck && npm test",
+        "prepublishOnly": "npm run check && npm run build"
+    },
+    "devDependencies": {
+        "tsup": "^8.5.0",
+        "typescript": "^5.9.2",
+        "vitest": "^3.2.4"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "sideEffects": false
+}
