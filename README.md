@@ -17,14 +17,14 @@
   <a href="https://www.npmjs.com/package/khmer-money-formatter">
     <img src="https://img.shields.io/npm/dm/khmer-money-formatter.svg?logo=github" alt="npm downloads">
   </a>
-  <a href="https://github.com/chamnan-dev/khmer-money-formatter">
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter">
     <img src="https://img.shields.io/github/stars/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="GitHub stars">
   </a>
-  <a href="https://github.com/chamnan-dev/khmer-money-formatter/blob/main/LICENSE">
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/blob/main/LICENSE">
     <img src="https://img.shields.io/npm/l/khmer-money-formatter.svg?logo=buddy" alt="license">
   </a>
-  <a href="https://github.com/chamnan-dev/khmer-money-formatter/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/chamnan-dev/khmer-money-formatter/ci.yml?logo=iterm2" alt="CI">
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/SmarterCoding/khmer-money-formatter/ci.yml?logo=iterm2" alt="CI">
   </a>
 </p>
 
