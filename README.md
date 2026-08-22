@@ -14,6 +14,12 @@
   <a href="https://github.com/SmarterCoding/khmer-money-formatter">
     <img src="https://img.shields.io/github/stars/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="GitHub stars">
   </a>
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/pulls">
+    <img src="https://img.shields.io/github/issues-pr/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="Pull Requests">
+  </a>
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="Contributors">
+  </a>
   <a href="https://github.com/SmarterCoding/khmer-money-formatter/blob/main/LICENSE">
     <img src="https://img.shields.io/npm/l/khmer-money-formatter.svg" alt="license">
   </a>
@@ -24,6 +30,7 @@
     <img src="https://img.shields.io/github/last-commit/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="last commit">
   </a>
 </p>
+
 
 
 
