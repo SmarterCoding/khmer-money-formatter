@@ -20,16 +20,32 @@
   <a href="https://github.com/SmarterCoding/khmer-money-formatter/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="Contributors">
   </a>
-  <a href="https://github.com/SmarterCoding/khmer-money-formatter/blob/main/LICENSE">
-    <img src="https://img.shields.io/npm/l/khmer-money-formatter.svg" alt="license">
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/security">
+    <img src="https://img.shields.io/badge/security-policy-green.svg?logo=github" alt="Security Policy">
   </a>
   <a href="https://github.com/SmarterCoding/khmer-money-formatter/actions">
     <img src="https://img.shields.io/github/actions/workflow/status/SmarterCoding/khmer-money-formatter/ci.yml?logo=github&label=CI" alt="CI">
   </a>
-  <a href="https://github.com/SmarterCoding/khmer-money-formatter">
-    <img src="https://img.shields.io/github/last-commit/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="last commit">
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/khmer-money-formatter.svg" alt="License">
   </a>
 </p>
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/npm/khmer-money-formatter/">
+    <img src="https://img.shields.io/badge/CDN-jsDelivr-ff5627.svg?logo=jsdelivr&logoColor=white" alt="jsDelivr CDN">
+  </a>
+  <a href="https://unpkg.com/khmer-money-formatter/">
+    <img src="https://img.shields.io/badge/CDN-unpkg-orange.svg?logo=npm&logoColor=white" alt="unpkg CDN">
+  </a>
+  <a href="https://securityscorecards.dev/">
+    <img src="https://img.shields.io/badge/Security-Scorecard-blue.svg?logo=securityscorecard&logoColor=white" alt="Security Scorecard">
+  </a>
+  <a href="https://github.com/SmarterCoding/khmer-money-formatter/network/dependents">
+    <img src="https://img.shields.io/github/forks/SmarterCoding/khmer-money-formatter.svg?logo=github" alt="GitHub forks">
+  </a>
+</p>
+
 
 
 
