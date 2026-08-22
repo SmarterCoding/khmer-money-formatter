@@ -17,18 +17,18 @@
         "javascript",
         "cambodia"
     ],
-    "homepage": "https://github.com/chamnan-dev/khmer-money-formatter",
+    "homepage": "https://github.com/SmarterCoding/khmer-money-formatter",
     "repository": {
         "type": "git",
-        "url": "https://github.com/chamnan-dev/khmer-money-formatter.git"
+        "url": "https://github.com/SmarterCoding/khmer-money-formatter.git"
     },
     "bugs": {
-        "url": "https://github.com/chamnan-dev/khmer-money-formatter/issues"
+        "url": "https://github.com/SmarterCoding/khmer-money-formatter/issues"
     },
     "license": "MIT",
     "author": {
         "name": "Chamnan",
-        "url": "https://github.com/chamnan-dev"
+        "url": "https://github.com/SmarterCoding"
     },
     "type": "module",
     "main": "./dist/index.cjs",

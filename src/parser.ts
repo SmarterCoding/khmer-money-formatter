@@ -1,59 +1,125 @@
-import { fromKhmerNumber } from "./khmer";
-import { parseNumber } from "./number";
+import {
+  parseNumber,
+} from "./number";
 
-const KHMER_CURRENCY = "៛";
-const KHMER_RIEL = "រៀល";
+import {
+  fromKhmerNumber,
+} from "./khmer";
 
-export function parseKHR(value: unknown): number {
-  if (value === null || value === undefined) {
+/**
+ * Parse a Khmer Riel formatted value.
+ *
+ * Supports:
+ *
+ * 10,000
+ * 10,000 ៛
+ * ៛10,000
+ * ៛ 10,000
+ * 10,000៛
+ * ១០,០០០
+ */
+export function parseKHR(
+  value: unknown,
+): number {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
     return 0;
   }
 
   if (typeof value === "number") {
-    return Number.isFinite(value) ? value : 0;
+    return Number.isFinite(value)
+      ? value
+      : 0;
   }
 
-  let input = String(value).trim();
-
-  if (!input) {
+  if (typeof value !== "string") {
     return 0;
   }
 
-  input = input
-    .replace(new RegExp(KHMER_CURRENCY, "g"), "")
-    .replace(new RegExp(KHMER_RIEL, "g"), "")
+  const cleaned = value
+    .replace(/៛/g, "")
+    .replace(/រៀល/g, "")
+    .replace(/\s+/g, "")
     .trim();
 
-  return fromKhmerNumber(input) || parseNumber(input);
+  if (!cleaned) {
+    return 0;
+  }
+
+  if (/[០-៩]/.test(cleaned)) {
+    return fromKhmerNumber(cleaned);
+  }
+
+  return parseNumber(cleaned);
 }
 
-export function isValidMoney(value: unknown): boolean {
+/**
+ * Validate a money input.
+ */
+export function isValidMoney(
+  value: unknown,
+): boolean {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return false;
+  }
+
   if (typeof value === "number") {
     return Number.isFinite(value);
   }
 
-  if (value === null || value === undefined) {
+  if (typeof value !== "string") {
     return false;
   }
 
-  const input = String(value).trim();
+  const input = value.trim();
 
   if (!input) {
-    return false;
-  }
-
-  const parsed = parseKHR(input);
-
-  if (!Number.isFinite(parsed)) {
     return false;
   }
 
   const cleaned = input
     .replace(/៛/g, "")
     .replace(/រៀល/g, "")
-    .replace(/[០-៩]/g, "")
-    .replace(/[0-9]/g, "")
-    .replace(/[,\s.-]/g, "");
+    .replace(/\s+/g, "")
+    .trim();
 
-  return cleaned.length === 0;
+  if (!cleaned) {
+    return false;
+  }
+
+  const arabic = cleaned.replace(
+    /[០-៩]/g,
+    (digit) => {
+      const map: Record<string, string> = {
+        "០": "0",
+        "១": "1",
+        "២": "2",
+        "៣": "3",
+        "៤": "4",
+        "៥": "5",
+        "៦": "6",
+        "៧": "7",
+        "៨": "8",
+        "៩": "9",
+      };
+
+      return map[digit] ?? digit;
+    },
+  );
+
+  const normalized = arabic.replace(
+    /,/g,
+    "",
+  );
+
+  return /^[-+]?\d+(\.\d+)?$/.test(
+    normalized,
+  );
 }

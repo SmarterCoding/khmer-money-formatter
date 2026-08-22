@@ -1,14 +1,5 @@
 # Khmer Money Formatter
 
-<!-- <p align="center">
-  <img src="./logo.png" alt="Khmer Money Formatter Logo" width="120">
-
-  <h1 align="center">Khmer Money Formatter</h1>
-
-  <p align="center">
-    Format and convert numbers into Khmer currency and Khmer number words.
-  </p>
-</p> -->
 
 <p align="center">
   <a href="https://www.npmjs.com/package/khmer-money-formatter">

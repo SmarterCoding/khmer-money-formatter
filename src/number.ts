@@ -8,18 +8,14 @@ const DEFAULT_OPTIONS: Required<NumberFormatOptions> = {
   empty: "0",
 };
 
-function normalizeOptions(
-  options: NumberFormatOptions = {},
-): Required<NumberFormatOptions> {
-  return {
-    ...DEFAULT_OPTIONS,
-    ...options,
-    decimals: Math.max(0, Math.floor(options.decimals ?? DEFAULT_OPTIONS.decimals)),
-  };
-}
-
-function normalizeNumber(value: unknown): number | null {
-  if (value === null || value === undefined || value === "") {
+export function toNumericValue(
+  value: unknown,
+): number | null {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
     return null;
   }
 
@@ -27,65 +23,122 @@ function normalizeNumber(value: unknown): number | null {
     return Number.isFinite(value) ? value : null;
   }
 
-  if (typeof value === "string") {
-    const normalized = value.trim();
-
-    if (!normalized) {
-      return null;
-    }
-
-    const parsed = Number(normalized.replace(/,/g, ""));
-
-    return Number.isFinite(parsed) ? parsed : null;
+  if (typeof value === "bigint") {
+    return Number(value);
   }
 
-  return null;
-}
+  if (typeof value !== "string") {
+    return null;
+  }
 
-function addThousandsSeparator(
-  value: string,
-  separator: string,
-): string {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+  const normalized = value
+    .trim()
+    .replace(/,/g, "");
+
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = Number(normalized);
+
+  return Number.isFinite(parsed)
+    ? parsed
+    : null;
 }
 
 export function formatNumber(
   value: unknown,
   options: NumberFormatOptions = {},
 ): string {
-  const config = normalizeOptions(options);
-  const number = normalizeNumber(value);
+  const config = {
+    ...DEFAULT_OPTIONS,
+    ...options,
+  };
 
-  if (number === null) {
+  const numericValue = toNumericValue(value);
+
+  if (numericValue === null) {
     return config.empty;
   }
 
-  const fixed = number.toFixed(config.decimals);
-  const negative = fixed.startsWith("-");
-  const unsigned = negative ? fixed.slice(1) : fixed;
-
-  const [integerPart="", decimalPart] = unsigned.split(".");
-
-  const formattedInteger = addThousandsSeparator(
-    integerPart,
-    config.separator,
+  const decimals = Math.max(
+    0,
+    Math.floor(config.decimals),
   );
 
-  let result = `${negative ? "-" : ""}${formattedInteger}`;
+  const fixed = numericValue.toFixed(decimals);
 
-  if (config.decimals > 0) {
-    result += `${config.decimalSeparator}${decimalPart}`;
+  const [integerPart = '', decimalPart] =
+    fixed.split(".");
+
+  const negative = integerPart.startsWith("-");
+
+  const absoluteInteger = negative
+    ? integerPart.slice(1)
+    : integerPart;
+
+  const formattedInteger =
+    absoluteInteger.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      config.separator,
+    );
+
+  let result =
+    `${negative ? "-" : ""}${formattedInteger}`;
+
+  if (decimals > 0 && decimalPart !== undefined) {
+    result +=
+      config.decimalSeparator +
+      decimalPart;
   }
 
-  if (config.khmerDigits) {
-    result = toKhmerDigits(result);
-  }
-
-  return result;
+  return config.khmerDigits
+    ? convertDigitsToKhmer(result)
+    : result;
 }
 
-function toKhmerDigits(value: string): string {
-  const digits: Record<string, string> = {
+export function parseNumber(
+  value: unknown,
+): number {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return 0;
+  }
+
+  if (typeof value === "number") {
+    return Number.isFinite(value)
+      ? value
+      : 0;
+  }
+
+  if (typeof value !== "string") {
+    return 0;
+  }
+
+  const normalized = convertDigitsFromKhmer(
+    value,
+  )
+    .trim()
+    .replace(/,/g, "");
+
+  if (!normalized) {
+    return 0;
+  }
+
+  const parsed = Number(normalized);
+
+  return Number.isFinite(parsed)
+    ? parsed
+    : 0;
+}
+
+function convertDigitsToKhmer(
+  value: string,
+): string {
+  const map: Record<string, string> = {
     "0": "០",
     "1": "១",
     "2": "២",
@@ -98,32 +151,30 @@ function toKhmerDigits(value: string): string {
     "9": "៩",
   };
 
-  return value.replace(/[0-9]/g, (digit) => digits[digit]!);
+  return value.replace(
+    /\d/g,
+    (digit) => map[digit]??digit,
+  );
 }
 
-export function parseNumber(value: unknown): number {
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : 0;
-  }
+function convertDigitsFromKhmer(
+  value: string,
+): string {
+  const map: Record<string, string> = {
+    "០": "0",
+    "១": "1",
+    "២": "2",
+    "៣": "3",
+    "៤": "4",
+    "៥": "5",
+    "៦": "6",
+    "៧": "7",
+    "៨": "8",
+    "៩": "9",
+  };
 
-  if (value === null || value === undefined) {
-    return 0;
-  }
-
-  const input = String(value).trim();
-
-  if (!input) {
-    return 0;
-  }
-
-  const normalized = input
-    .replace(/[០-៩]/g, (digit) => {
-      const khmerDigits = "០១២៣៤៥៦៧៨៩";
-      return String(khmerDigits.indexOf(digit));
-    })
-    .replace(/,/g, "");
-
-  const result = Number(normalized);
-
-  return Number.isFinite(result) ? result : 0;
+  return value.replace(
+    /[០-៩]/g,
+    (digit) => map[digit]??digit,
+  );
 }

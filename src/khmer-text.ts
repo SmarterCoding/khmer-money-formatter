@@ -1,4 +1,4 @@
-const DIGITS: readonly string[] = [
+const DIGITS = [
   "សូន្យ",
   "មួយ",
   "ពីរ",
@@ -22,7 +22,7 @@ const TENS: Record<number, string> = {
   9: "កៅសិប",
 };
 
-const SCALES: readonly string[] = [
+const SCALES = [
   "",
   "ពាន់",
   "លាន",
@@ -31,13 +31,11 @@ const SCALES: readonly string[] = [
   "ក្វាទ្រីលាន",
 ];
 
-function getDigit(value: number): string {
-  return DIGITS[value] ?? "";
-}
-
-function under100(value: number): string {
+function under100(
+  value: number,
+): string {
   if (value < 10) {
-    return getDigit(value);
+    return DIGITS[value]?? '';
   }
 
   if (value === 10) {
@@ -45,33 +43,40 @@ function under100(value: number): string {
   }
 
   if (value < 20) {
-    return `ដប់${getDigit(value - 10)}`;
+    return `ដប់${DIGITS[value - 10]}`;
   }
 
   const tens = Math.floor(value / 10);
-  const ones = value % 10;
+  var ones: number;
+  ones = value % 10;
 
-  let result = TENS[tens] ?? "";
+  let result = TENS[tens];
 
   if (ones > 0) {
-    result += getDigit(ones);
+    result += DIGITS[ones]??'';
   }
 
-  return result;
+  return result??'';
 }
 
-function under1000(value: number): string {
+function under1000(
+  value: number,
+): string {
   if (value === 0) {
     return "";
   }
 
-  const hundreds = Math.floor(value / 100);
-  const remainder = value % 100;
+  const hundreds =
+    Math.floor(value / 100);
+
+  const remainder =
+    value % 100;
 
   let result = "";
 
   if (hundreds > 0) {
-    result += `${getDigit(hundreds)}រយ`;
+    result +=
+      `${DIGITS[hundreds]}រយ`;
   }
 
   if (remainder > 0) {
@@ -81,9 +86,11 @@ function under1000(value: number): string {
   return result;
 }
 
-function integerToKhmerText(value: number): string {
+function integerToKhmerText(
+  value: number,
+): string {
   if (value === 0) {
-    return getDigit(0);
+    return DIGITS[0]??'';
   }
 
   let number = value;
@@ -94,18 +101,25 @@ function integerToKhmerText(value: number): string {
     const group = number % 1000;
 
     if (group !== 0) {
-      const text = under1000(group);
-      const scale = SCALES[groupIndex] ?? "";
+      const text =
+        under1000(group);
 
-      result = text + scale + result;
+      const scale =
+        SCALES[groupIndex] ?? "";
+
+      result =
+        text + scale + result;
     }
 
-    number = Math.floor(number / 1000);
+    number =
+      Math.floor(number / 1000);
+
     groupIndex++;
   }
 
   return result;
 }
+
 
 /**
  * Convert a number to Khmer text.
@@ -115,31 +129,41 @@ function integerToKhmerText(value: number): string {
  * 123 -> មួយរយម្ភៃបី
  */
 export function numberToKhmerText(
-  value: number | string | null | undefined,
+  value: number | string,
 ): string {
-  if (value === null || value === undefined || value === "") {
-    return getDigit(0);
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return DIGITS[0]??'';
   }
 
-  const normalized = String(value)
-    .replace(/,/g, "")
-    .trim();
+  const normalized =
+    String(value)
+      .replace(/,/g, "")
+      .trim();
 
-  const number = Number(normalized);
+  const number =
+    Number(normalized);
 
   if (!Number.isFinite(number)) {
     return "";
   }
 
   if (number === 0) {
-    return getDigit(0);
+    return DIGITS[0]??'';
   }
 
   if (number < 0) {
-    return `ដក${numberToKhmerText(Math.abs(number))}`;
+    return `ដក${numberToKhmerText(
+      Math.abs(number),
+    )}`;
   }
 
-  return integerToKhmerText(Math.floor(number));
+  return integerToKhmerText(
+    Math.floor(number),
+  );
 }
 
 /**
@@ -148,41 +172,55 @@ export function numberToKhmerText(
  * Example:
  *
  * 123.45
- * -> មួយរយម្ភៃបីចុចបួនប្រាំ
+ * ->
+ * មួយរយម្ភៃបីចុចបួនប្រាំ
  */
 export function decimalToKhmerText(
-  value: number | string | null | undefined,
+  value: number | string,
 ): string {
-  if (value === null || value === undefined || value === "") {
-    return getDigit(0);
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return DIGITS[0]??'';
   }
 
-  const normalized = String(value)
-    .replace(/,/g, "")
-    .trim();
+  const normalized =
+    String(value)
+      .replace(/,/g, "")
+      .trim();
 
-  const number = Number(normalized);
+  const number =
+    Number(normalized);
 
   if (!Number.isFinite(number)) {
     return "";
   }
 
   if (!normalized.includes(".")) {
-    return numberToKhmerText(normalized);
+    return numberToKhmerText(
+      normalized,
+    );
   }
 
-  const [integerPart = "0", decimalPart = ""] =
-    normalized.split(".");
+  const [
+    integerPart='',
+    decimalPart = '',
+  ] = normalized.split(".");
 
-  const integerText = numberToKhmerText(integerPart);
+  const integerText =
+    numberToKhmerText(integerPart);
 
-  const decimalText = decimalPart
-    .split("")
-    .map((digit) => {
-      const digitNumber = Number(digit);
-      return getDigit(digitNumber);
-    })
-    .join("");
+  const decimalText = numberToKhmerText(decimalPart);
+  // const decimalText =
+  //   decimalPart
+  //     .split("")
+  //     .map(
+  //       (digit) =>
+  //         DIGITS[Number(digit)],
+  //     )
+  //     .join("");
 
   return `${integerText}ចុច${decimalText}`;
 }
@@ -195,7 +233,7 @@ export function decimalToKhmerText(
  * 10000 -> មួយម៉ឺនរៀល
  */
 export function numberToKhmerMoneyText(
-  value: number | string | null | undefined,
+  value: number | string,
 ): string {
   return `${numberToKhmerText(value)}រៀល`;
 }

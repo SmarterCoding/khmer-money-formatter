@@ -2,6 +2,7 @@ export {
   formatKHR,
   formatKHRInput,
   formatKHRLong,
+  ceilMoney,
 } from "./formatter";
 
 export {
@@ -19,9 +20,15 @@ export {
   fromKhmerNumber,
 } from "./khmer";
 
+export {
+  numberToKhmerText,
+  decimalToKhmerText,
+  numberToKhmerMoneyText,
+} from "./khmer-text";
 
 export type {
   MoneyFormatOptions,
   NumberFormatOptions,
+  KhmerLongFormatOptions,
   CurrencyPosition,
 } from "./types";

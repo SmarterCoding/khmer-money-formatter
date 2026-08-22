@@ -1,59 +1,98 @@
-import { formatNumber } from "./number";
-import { toKhmerNumber } from "./khmer";
-import type { MoneyFormatOptions } from "./types";
+import {
+  formatNumber,
+  toNumericValue,
+} from "./number";
 
-const DEFAULT_OPTIONS: Required<MoneyFormatOptions> = {
-  symbol: true,
-  currency: "៛",
-  decimals: 0,
-  separator: ",",
-  decimalSeparator: ".",
-  currencyPosition: "suffix",
-  khmerDigits: false,
-  empty: "0"
-};
+import type {
+  MoneyFormatOptions,
+} from "./types";
 
-function normalizeOptions(
-  options: MoneyFormatOptions = {
-  },
-): Required<MoneyFormatOptions> {
-  return {
-    ...DEFAULT_OPTIONS,
-    ...options,
-    decimals: Math.max(
-      0,
-      Math.floor(options.decimals ?? DEFAULT_OPTIONS.decimals),
-    ),
+const DEFAULT_MONEY_OPTIONS:
+  Required<MoneyFormatOptions> = {
+    symbol: true,
+    currency: "៛",
+    decimals: 0,
+    separator: ",",
+    decimalSeparator: ".",
+    currencyPosition: "suffix",
+    khmerDigits: false,
+    empty: "0",
+    roundTo: 100,
   };
+
+/**
+ * Always rounds a KHR value upward
+ * to the nearest configured unit.
+ *
+ * Example:
+ *
+ * 1000.01 -> 1100
+ * 1050    -> 1100
+ * 1099    -> 1100
+ * 1100    -> 1100
+ */
+export function ceilMoney(
+  value: number,
+  unit = 100,
+): number {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+
+  if (!Number.isFinite(unit) || unit <= 0) {
+    return value;
+  }
+
+  return Math.ceil(value / unit) * unit;
 }
 
+/**
+ * Format Khmer Riel.
+ */
 export function formatKHR(
   value: unknown,
-  options: MoneyFormatOptions = {
-  },
+  options: MoneyFormatOptions = {},
 ): string {
-  const config = normalizeOptions(options);
+  const config = {
+    ...DEFAULT_MONEY_OPTIONS,
+    ...options,
+  };
 
-  if (value === null || value === undefined || value === "") {
-    if (config.empty === "") {
+  const numericValue =
+    toNumericValue(value);
+
+  if (numericValue === null) {
+    const emptyValue = config.empty;
+
+    if (!config.symbol) {
+      return emptyValue;
+    }
+
+    if (!emptyValue) {
       return "";
     }
 
-    if (!config.symbol) {
-      return config.empty;
-    }
-
-    return config.currencyPosition === "prefix"
-      ? `${config.currency}${config.empty}`
-      : `${config.empty} ${config.currency}`;
+    return config.currencyPosition ===
+      "prefix"
+      ? `${config.currency}${emptyValue}`
+      : `${emptyValue} ${config.currency}`;
   }
 
-  const formatted = formatNumber(value, {
-    decimals: config.decimals,
-    separator: config.separator,
-    decimalSeparator: config.decimalSeparator,
-    khmerDigits: config.khmerDigits,
-  });
+  const roundedValue = ceilMoney(
+    numericValue,
+    config.roundTo,
+  );
+
+  const formatted =
+    formatNumber(roundedValue, {
+      decimals: 0,
+      separator: config.separator,
+      decimalSeparator:
+        config.decimalSeparator,
+      khmerDigits:
+        config.khmerDigits,
+      empty: config.empty,
+    });
 
   if (!config.symbol) {
     return formatted;
@@ -66,41 +105,73 @@ export function formatKHR(
   return `${formatted} ${config.currency}`;
 }
 
+/**
+ * Format an amount for text input.
+ *
+ * KHR values are rounded upward to the nearest
+ * 100 Riel by default.
+ */
 export function formatKHRInput(
   value: unknown,
-  options: Omit<MoneyFormatOptions, "symbol" | "currency" | "currencyPosition"> = {},
+  options: MoneyFormatOptions = {},
 ): string {
-  return formatNumber(value, {
-    decimals: options.decimals ?? 0,
-    separator: options.separator ?? ",",
-    decimalSeparator: options.decimalSeparator ?? ".",
-    khmerDigits: options.khmerDigits ?? false,
-      empty: options.empty ?? "0"
+  const config = {
+    ...DEFAULT_MONEY_OPTIONS,
+    ...options,
+  };
+
+  const numericValue =
+    toNumericValue(value);
+
+  if (numericValue === null) {
+    return config.empty;
+  }
+
+  const roundedValue = ceilMoney(
+    numericValue,
+    config.roundTo,
+  );
+
+  return formatNumber(roundedValue, {
+    decimals: 0,
+    separator: config.separator,
+    decimalSeparator:
+      config.decimalSeparator,
+    khmerDigits:
+      config.khmerDigits,
+    empty: config.empty,
   });
 }
 
+/**
+ * Format KHR using the long currency name.
+ */
 export function formatKHRLong(
   value: unknown,
-  options: Omit<MoneyFormatOptions, "currency"> & {
+  options: MoneyFormatOptions & {
     khmer?: boolean;
   } = {},
 ): string {
   const {
     khmer = false,
-    symbol = false,
-    ...formatOptions
+    ...moneyOptions
   } = options;
 
-  const number = formatNumber(value, {
-    ...formatOptions,
-      khmerDigits: khmer,
-  });
+  const formatted =
+    formatKHR(value, {
+      ...moneyOptions,
+      symbol: false,
+      khmerDigits:
+        moneyOptions.khmerDigits ??
+        khmer,
+    });
 
-  const result = `${number} រៀល`;
-
-  if (symbol) {
-    return result;
+  if (!formatted) {
+    return "";
   }
 
-  return result;
+  return moneyOptions.currencyPosition ===
+    "prefix"
+    ? `រៀល${formatted}`
+    : `${formatted} រៀល`;
 }
