@@ -1,6 +1,6 @@
 {
     "name": "khmer-money-formatter",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Lightweight, dependency-free TypeScript library for formatting, parsing, and converting Khmer Riel and Khmer numbers.",
     "keywords": [
         "khmer",
